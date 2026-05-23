@@ -1,0 +1,28 @@
+services:
+  field-photo-mapper:
+    build: .
+    container_name: field-photo-mapper
+    ports:
+      - "8080:8080"
+    environment:
+      NODE_ENV: production
+      UPLOAD_ROOT: /app/tmp
+      MAX_UPLOAD_MB: 512
+      MAX_PHOTOS_PER_JOB: 50
+      FIELD_MAPPER_PASSWORD: ${FIELD_MAPPER_PASSWORD:-}
+    volumes:
+      - field-photo-temp:/app/tmp
+    restart: unless-stopped
+
+  cloudflared:
+    image: cloudflare/cloudflared:latest
+    container_name: field-photo-mapper-tunnel
+    command: tunnel --no-autoupdate run --token ${CLOUDFLARE_TUNNEL_TOKEN:-}
+    depends_on:
+      - field-photo-mapper
+    restart: unless-stopped
+    profiles:
+      - cloudflare
+
+volumes:
+  field-photo-temp:
