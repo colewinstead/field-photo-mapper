@@ -1,8 +1,25 @@
 # Field Photo Mapper
 
-A self-hosted web app for turning geotagged field photos into an interactive map and downloadable map packages. Upload JPG, JPEG, HEIC, or HEIF files, review their locations and metadata, then export a KMZ, a KML package with photo previews, or a CSV status report.
+> Turn a folder of geotagged field photos into a map, a Google Earth tour, and a clean status report.
 
-Built with Next.js, React, TypeScript, and Leaflet. Photos are processed on the server using `exifr`, ExifTool, Sharp, and `heic-convert`; ZIP exports use JSZip.
+Field Photo Mapper is a self-hosted web app for reviewing JPG, JPEG, HEIC, and HEIF photos on an interactive map. It reads their GPS coordinates and capture dates, then exports KMZ, KML + Photos, and CSV files for project documentation and field review.
+
+Built with Next.js, React, TypeScript, and Leaflet. Photos are processed on the server with `exifr`, ExifTool, Sharp, and `heic-convert`; ZIP exports use JSZip.
+
+## See it in action
+
+<table>
+  <tr>
+    <td width="50%" valign="top">
+      <img src="docs/screenshots/app-map-review.png" alt="Field Photo Mapper showing mapped bridge inspection photos on satellite imagery" />
+      <p><strong>Review the field set.</strong><br />Upload photos, inspect the map, open a preview, and choose export options in one workspace.</p>
+    </td>
+    <td width="50%" valign="top">
+      <img src="docs/screenshots/google-earth-pro-popup.png" alt="Google Earth Pro displaying a mapped field photo in a placemark popup" />
+      <p><strong>Open the result in Google Earth Pro.</strong><br />Each KMZ placemark can show the photo preview, filename, date, and coordinates.</p>
+    </td>
+  </tr>
+</table>
 
 ## Features
 
@@ -14,6 +31,19 @@ Built with Next.js, React, TypeScript, and Leaflet. Photos are processed on the 
 - Temporary server storage, optional shared-password access, and Docker deployment.
 
 The current beta interface accepts up to **50 photos per project**. The server defaults to a **512 MB limit on uploaded file bytes per request**; the browser uploads one photo per request.
+
+## Try the included sample set
+
+Five GPS-tagged HEIC field photos are included in [examples/sample-field-photos](examples/sample-field-photos). They are the source files used for the screenshots above and give you a quick way to test the full upload-to-KMZ workflow.
+
+```text
+examples/sample-field-photos/
+├── IMG_2493.HEIC
+├── IMG_2494.HEIC
+├── IMG_2495.HEIC
+├── IMG_2854.HEIC
+└── IMG_2855.HEIC
+```
 
 ## Run with Docker
 
@@ -44,7 +74,7 @@ Compose stores temporary uploads in the `field-photo-temp` named volume, mounted
 
 ## Local development
 
-Use Node.js 20 and npm to match the bundled Docker image. The ExifTool fallback invokes a Unix executable directly, so Docker or a Linux/WSL environment is the appropriate starting point for full HEIC metadata support. Native Windows execution may fail to extract that metadata.
+Use Node.js 20.9 or newer and npm. The Docker image uses Node.js 20.
 
 ```sh
 npm install
@@ -94,6 +124,12 @@ Photos without GPS coordinates remain in the CSV report but do not appear on the
 | **CSV** | A report for every processed photo, including missing-GPS and error records. |
 
 Map packages contain resized JPEG previews, not the original full-resolution uploads. Export previews fit within 900 × 675 pixels without enlargement. The popup-width setting controls display width rather than image resolution. Pin styles apply to exported placemarks; the browser map uses its own marker style.
+
+### Google Earth compatibility
+
+Use **Google Earth Pro (desktop)** to view photo previews in exported KMZ and KML + Photos files.
+
+Google Earth Web can import the map points, filenames, dates, and coordinates from a KMZ, but it does not display photos stored inside a KMZ or local KML package. Showing photos in Google Earth Web requires externally hosted image URLs.
 
 CSV columns:
 
