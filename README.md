@@ -13,6 +13,24 @@ Built with Next.js, React, TypeScript, and Leaflet. Photos are processed on the 
 - Custom export filenames, placemark names, pin colors, pin sizes, and popup image widths.
 - Temporary server storage, optional shared-password access, and Docker deployment.
 
+## Portable standalone HTML
+
+The repository also contains a browser-only edition that builds to one portable HTML file. It can be opened directly from File Explorer without Node.js, Docker, a local server, or installation. Photo metadata, thumbnails, and exports are generated on the device; selected photos are never uploaded. Street and satellite map tiles still require internet access.
+
+Build the portable file:
+
+```powershell
+npm install
+npm run test:standalone
+npm run build:standalone
+```
+
+Open `release/field-photo-mapper.html`. The `release` directory is intentionally ignored by Git because the HTML is a generated release artifact. Use `npm run dev:standalone` while developing the portable interface.
+
+The portable edition supports JPG, JPEG, HEIC, and HEIF files, up to 50 photos per project. HEIC metadata is read in the browser with `exifr` and an `ExifReader` fallback. HEIC pixels are decoded inside the page with `heic-decode` and embedded `libheif-js` WebAssembly; no worker or separate WASM file is required, so decoding also works when the HTML is opened through Chrome's `file://` mode. If an unusual HEIC variant has readable GPS metadata but cannot be decoded within 60 seconds, its placemark remains available without a preview image.
+
+Third-party versions, licenses, and source links for the self-contained build are listed in [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md).
+
 The current beta interface accepts up to **50 photos per project**. The server defaults to a **512 MB limit on uploaded file bytes per request**; the browser uploads one photo per request.
 
 ## Run with Docker
@@ -72,8 +90,12 @@ Open [http://localhost:8080](http://localhost:8080).
 | `npm run build` | Build the production application. |
 | `npm start` | Run the production build on port 8080. |
 | `npm run lint` | Run the Next.js ESLint checks. |
+| `npm run dev:standalone` | Start the standalone interface in Vite development mode. |
+| `npm run test:standalone` | Run portable metadata and export unit tests. |
+| `npm run typecheck:standalone` | Type-check the portable application. |
+| `npm run build:standalone` | Produce `release/field-photo-mapper.html`. |
 
-There is currently no automated test script in `package.json`.
+The hosted application does not currently have an automated test suite; the standalone metadata and export logic does.
 
 ## Using the app
 
@@ -160,4 +182,7 @@ middleware.ts               Optional shared-password authentication
 Dockerfile                  Production container build
 docker-compose.yml          App, temporary volume, optional tunnel
 PUBLIC_BETA.md              Public beta deployment notes
+standalone/                 Browser-only photo processing and export application
+vite.standalone.config.mts  Single-file portable build configuration
+THIRD_PARTY_NOTICES.md      Portable-build library and license notices
 ```

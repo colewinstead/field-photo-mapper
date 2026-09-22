@@ -1,0 +1,62 @@
+.portableBadge {
+  display: inline-block;
+  margin-left: 6px;
+  border: 1px solid rgba(56, 185, 143, 0.6);
+  border-radius: 999px;
+  padding: 3px 7px;
+  color: var(--accent-strong);
+  font-size: 10px;
+  line-height: 1;
+  text-transform: uppercase;
+  vertical-align: middle;
+}
+
+.portableMarker {
+  background: transparent;
+  border: 0;
+}
+
+.portableMarker span {
+  display: block;
+  width: 26px;
+  height: 34px;
+  border: 3px solid #eaf5f0;
+  border-radius: 50% 50% 50% 0;
+  background: #2eb98b;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+  transform: rotate(-45deg);
+}
+
+.portableMarker span::after {
+  content: '';
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  left: 9px;
+  top: 9px;
+  border-radius: 50%;
+  background: #0d1110;
+}
+
+.previewWarning {
+  margin-top: 5px;
+  color: var(--warning);
+}
+
+.licenseNotice {
+  border-top: 1px solid var(--line);
+  padding: 12px 20px 16px;
+  color: var(--muted);
+  font-size: 11px;
+  line-height: 1.45;
+}
+
+.licenseNotice summary {
+  cursor: pointer;
+  color: var(--muted);
+  font-weight: 700;
+}
+
+.licenseNotice p {
+  margin: 8px 0 0;
+}

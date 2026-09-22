@@ -1,0 +1,10 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "incremental": false,
+    "plugins": [],
+    "types": ["vite/client", "vitest/globals"]
+  },
+  "include": ["standalone/**/*.ts", "standalone/**/*.tsx", "lib/types.ts"],
+  "exclude": ["node_modules"]
+}

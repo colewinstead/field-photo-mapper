@@ -1,7 +1,10 @@
 .next
+.playwright-cli
 node_modules
 npm-debug.log
 .env
 .env.local
 tmp
+release
+*.tsbuildinfo
 Test Photos
