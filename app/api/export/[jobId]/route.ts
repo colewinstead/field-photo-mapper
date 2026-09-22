@@ -7,27 +7,28 @@ export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
 
 type Context = {
-  params: {
+  params: Promise<{
     jobId: string;
-  };
+  }>;
 };
 
 export async function GET(request: Request, { params }: Context) {
+  const { jobId } = await params;
   await cleanupStaleJobs();
 
   const url = new URL(request.url);
   const type = url.searchParams.get('type') ?? 'kmz';
 
   try {
-    const manifest = await readManifest(params.jobId);
-    scheduleCleanup(params.jobId);
+    const manifest = await readManifest(jobId);
+    scheduleCleanup(jobId);
 
     if (type === 'csv') {
       const csv = csvForPhotos(manifest.photos);
       return new NextResponse(csv, {
         headers: {
           'Content-Type': 'text/csv; charset=utf-8',
-          'Content-Disposition': `attachment; filename="field-photo-mapper-${params.jobId}.csv"`
+          'Content-Disposition': `attachment; filename="field-photo-mapper-${jobId}.csv"`
         }
       });
     }
@@ -37,7 +38,7 @@ export async function GET(request: Request, { params }: Context) {
     }
 
     const options = exportOptionsFromUrl(url);
-    const baseFilename = downloadBaseFilename(url.searchParams.get('filename'), params.jobId);
+    const baseFilename = downloadBaseFilename(url.searchParams.get('filename'), jobId);
 
     if (type === 'kmlzip') {
       const kmlZip = await kmlPackageForManifest(manifest, { ...options, mediaFolder: 'photos' }, baseFilename);

@@ -1,3 +1,5 @@
+/* eslint-disable @next/next/no-img-element */
+
 import L from 'leaflet';
 import { MapContainer, Marker, Popup, TileLayer, useMap } from 'react-leaflet';
 import { useEffect, useMemo } from 'react';

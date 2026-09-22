@@ -4,9 +4,9 @@ The standalone HTML build includes the following libraries. Exact versions are l
 
 | Component | Version | License | Source and license |
 | --- | ---: | --- | --- |
-| React / React DOM | 18.3.1 | MIT | [facebook/react](https://github.com/facebook/react) |
+| React / React DOM | 19.3.0 | MIT | [facebook/react](https://github.com/facebook/react) |
 | Leaflet | 1.9.4 | BSD-2-Clause | [Leaflet/Leaflet](https://github.com/Leaflet/Leaflet) |
-| React Leaflet | 4.2.1 | Hippocratic-2.1 | [PaulLeCam/react-leaflet](https://github.com/PaulLeCam/react-leaflet) |
+| React Leaflet | 5.0.0 | Hippocratic-2.1 | [PaulLeCam/react-leaflet](https://github.com/PaulLeCam/react-leaflet) |
 | exifr | 7.1.3 | MIT | [MikeKovarik/exifr](https://github.com/MikeKovarik/exifr) |
 | ExifReader | 4.45.2 | MPL-2.0 | [mattiasw/ExifReader](https://github.com/mattiasw/ExifReader) |
 | JSZip | 3.10.2 | MIT or GPL-3.0 | [Stuk/jszip](https://github.com/Stuk/jszip) |

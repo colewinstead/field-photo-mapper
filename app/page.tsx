@@ -1,6 +1,7 @@
 'use client';
 
 /* eslint-disable @next/next/no-img-element */
+/* eslint-disable @next/next/no-location-assign-relative-destination */
 
 import dynamic from 'next/dynamic';
 import { useMemo, useRef, useState } from 'react';

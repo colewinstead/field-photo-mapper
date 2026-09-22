@@ -1,14 +1,11 @@
 import { promises as fs } from 'fs';
-import { execFile } from 'child_process';
 import path from 'path';
 import crypto from 'crypto';
-import { promisify } from 'util';
 import exifr from 'exifr';
 import convert from 'heic-convert';
 import sharp from 'sharp';
+import { exiftool } from 'exiftool-vendored';
 import type { PhotoRecord } from './types';
-
-const execFileAsync = promisify(execFile);
 
 type ExifResult = {
   latitude?: number;
@@ -152,38 +149,17 @@ function asNumber(value: unknown) {
 }
 
 async function readExifWithExiftool(filePath: string): Promise<Record<string, unknown>> {
-  const exiftoolPath = path.join(process.cwd(), 'node_modules', 'exiftool-vendored.pl', 'bin', 'exiftool');
-  const { stdout } = await execFileAsync(
-    exiftoolPath,
-    [
-      '-j',
-      '-n',
-      '-GPSLatitude',
-      '-GPSLongitude',
-      '-DateTimeOriginal',
-      '-CreateDate',
-      '-ModifyDate',
-      '-MediaCreateDate',
-      '-CreationDate',
-      filePath
-    ],
-    {
-      timeout: 15000,
-      maxBuffer: 1024 * 1024
-    }
-  ).catch(() => ({ stdout: '[]' }));
-
-  const [tags = {}] = safeExifJsonParse(stdout);
+  const tags = await exiftool.read(filePath).catch(() => undefined);
   const dateValue =
-    tags.DateTimeOriginal ??
-    tags.CreateDate ??
-    tags.ModifyDate ??
-    tags.MediaCreateDate ??
-    tags.CreationDate;
+    tags?.DateTimeOriginal ??
+    tags?.CreateDate ??
+    tags?.ModifyDate ??
+    tags?.MediaCreateDate ??
+    tags?.CreationDate;
 
   return {
-    latitude: asNumber(tags.GPSLatitude),
-    longitude: asNumber(tags.GPSLongitude),
+    latitude: asNumber(tags?.GPSLatitude),
+    longitude: asNumber(tags?.GPSLongitude),
     DateTimeOriginal: stringifyDateValue(dateValue)
   };
 }
@@ -195,15 +171,6 @@ function stringifyDateValue(value: unknown) {
     return value.toISOString();
   }
   return String(value);
-}
-
-function safeExifJsonParse(stdout: string) {
-  try {
-    const parsed = JSON.parse(stdout) as Record<string, unknown>[];
-    return Array.isArray(parsed) ? parsed : [];
-  } catch {
-    return [];
-  }
 }
 
 function isHeic(filename: string) {

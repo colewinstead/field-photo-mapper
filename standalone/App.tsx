@@ -1,3 +1,5 @@
+/* eslint-disable @next/next/no-img-element */
+
 import { useEffect, useMemo, useRef, useState } from 'react';
 import type { PinColor, PinNameMode } from '../lib/types';
 import PhotoMap from './PhotoMap';
@@ -273,7 +275,7 @@ export default function App() {
 
           <details className="licenseNotice">
             <summary>Third-party notices</summary>
-            <p>Portable build: React 18.3.1 (MIT), Leaflet 1.9.4 (BSD-2-Clause), exifr 7.1.3 (MIT), ExifReader 4.45.2 (MPL-2.0), JSZip 3.10.2 (MIT/GPL-3.0), heic-decode 2.1.0 (ISC), and libheif-js 1.23.2 (LGPL-3.0). Source and license links are documented in the project README.</p>
+            <p>Portable build: React 19.3.0 (MIT), Leaflet 1.9.4 (BSD-2-Clause), React Leaflet 5.0.0 (Hippocratic-2.1), exifr 7.1.3 (MIT), ExifReader 4.45.2 (MPL-2.0), JSZip 3.10.2 (MIT/GPL-3.0), heic-decode 2.1.0 (ISC), and libheif-js 1.23.2 (LGPL-3.0). Source and license links are documented in the project README.</p>
           </details>
         </aside>
 
