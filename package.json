@@ -4,17 +4,24 @@
   "private": true,
   "scripts": {
     "dev": "next dev -p 8080",
+    "dev:standalone": "vite --config vite.standalone.config.mts",
     "build": "next build",
+    "build:standalone": "vite build --config vite.standalone.config.mts",
     "start": "next start -p 8080",
-    "lint": "next lint"
+    "lint": "eslint .",
+    "test:standalone": "vitest run --config vitest.standalone.config.mts",
+    "typecheck:standalone": "tsc --noEmit -p tsconfig.standalone.json"
   },
   "dependencies": {
     "@types/leaflet": "^1.9.12",
     "exifr": "^7.1.3",
+    "exifreader": "^4.45.2",
     "exiftool-vendored": "^38.1.0",
     "heic-convert": "^2.1.0",
+    "heic-decode": "^2.1.0",
     "jszip": "^3.10.1",
     "leaflet": "^1.9.4",
+    "libheif-js": "^1.23.2",
     "next": "^16.3.5",
     "react": "^19.2.3",
     "react-dom": "^19.2.3",
@@ -25,8 +32,12 @@
     "@types/node": "^20.14.10",
     "@types/react": "^18.3.3",
     "@types/react-dom": "^18.3.0",
+    "@vitejs/plugin-react": "^6.1.1",
     "eslint": "^9.39.5",
     "eslint-config-next": "^16.3.5",
-    "typescript": "^5.5.3"
+    "typescript": "^5.5.3",
+    "vite": "^8.3.0",
+    "vite-plugin-singlefile": "^2.3.3",
+    "vitest": "^4.0.18"
   }
 }
